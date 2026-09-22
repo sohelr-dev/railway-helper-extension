@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Railway Ticket Helper",
+  "version": "4.0",
+  "description": "High-speed automation for the Bangladesh Railway e-ticket site (eticket.railway.gov.bd): coach/seat scanning, lightning seat selection, auto proceed, and OTP auto-fill.",
+  "author": "Railway Helper",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://eticket.railway.gov.bd/*",
+    "https://*.railway.gov.bd/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Railway Ticket Helper"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://eticket.railway.gov.bd/*",
+        "https://*.railway.gov.bd/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Railway Ticket Helper</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            width: 330px;
+            padding: 14px;
+            margin: 0;
+            background: linear-gradient(160deg, #f4f7f6 0%, #e7f0ec 100%);
+            color: #2c3e50;
+        }
+
+        fieldset {
+            border: 1px solid #d5e3dc;
+            border-radius: 6px;
+            padding: 8px 10px 10px;
+            margin: 0 0 10px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        legend {
+            font-size: 11px;
+            font-weight: 700;
+            color: #1f6f43;
+            padding: 0 4px;
+        }
+
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 7px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 12px;
+            background: #fff;
+        }
+
+        h1 {
+            font-size: 15px;
+            text-align: center;
+            margin: 0 0 2px;
+            color: #1f6f43;
+        }
+
+        .subtitle {
+            font-size: 11px;
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 12px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 8px;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s ease, transform 0.05s ease;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-start {
+            background-color: #27ae60;
+        }
+
+        .btn-start:hover:not(:disabled) {
+            background-color: #219653;
+        }
+
+        .btn-start.active {
+            background-color: #e67e22;
+        }
+
+        .btn-otp {
+            background-color: #2980b9;
+        }
+
+        .btn-otp:hover:not(:disabled) {
+            background-color: #21618c;
+        }
+
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 10px 0 4px;
+            color: #34495e;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 13px;
+            letter-spacing: 2px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #27ae60;
+            box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 6px;
+        }
+
+        .row input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #27ae60;
+        }
+
+        .row span {
+            font-size: 11px;
+            color: #34495e;
+        }
+
+        .status {
+            margin-top: 12px;
+            padding: 8px;
+            font-size: 11px;
+            border-radius: 5px;
+            background: #fff;
+            border-left: 4px solid #95a5a6;
+            min-height: 18px;
+            word-break: break-word;
+        }
+
+        .status.ok {
+            border-left-color: #27ae60;
+        }
+
+        .status.warn {
+            border-left-color: #e67e22;
+        }
+
+        .status.err {
+            border-left-color: #e74c3c;
+        }
+
+        .footer {
+            margin-top: 10px;
+            font-size: 10px;
+            text-align: center;
+            color: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+    <h1>Railway Ticket Helper</h1>
+    <div class="subtitle">Auto Search &middot; Book Now &middot; Seat Select &middot; v4.0</div>
+
+    <fieldset>
+        <legend>Auto Search &amp; Booking</legend>
+        <label for="fromStation">From (station name)</label>
+        <input id="fromStation" type="text" placeholder="e.g. Dhaka" autocomplete="off">
+        <label for="toStation">To (station name)</label>
+        <input id="toStation" type="text" placeholder="e.g. Saidpur" autocomplete="off">
+        <label for="journeyDate">Journey Date</label>
+        <input id="journeyDate" type="date">
+    </fieldset>
+
+    <fieldset>
+        <legend>Coach &amp; Seat Target</legend>
+        <label for="coachCode">Coach / class code</label>
+        <input id="coachCode" type="text" list="coachList" placeholder="SNIGDHA, S_CHAIR, F_CHAIR... (leave blank for any)" autocomplete="off">
+        <datalist id="coachList">
+            <option value="SNIGDHA"></option>
+            <option value="S_CHAIR"></option>
+            <option value="F_CHAIR"></option>
+            <option value="F_SEAT"></option>
+            <option value="S_SEAT"></option>
+            <option value="AC_S"></option>
+            <option value="AC_B"></option>
+            <option value="SHOVAN"></option>
+            <option value="SHULOV"></option>
+            <option value="THA"></option>
+        </datalist>
+
+        <label for="seatPreference">Seat Preference</label>
+        <select id="seatPreference">
+            <option value="any">Any available seat</option>
+            <option value="window">Window seat</option>
+            <option value="aisle">Aisle seat</option>
+            <option value="lower">Lower Berth</option>
+            <option value="upper">Upper Berth</option>
+        </select>
+
+        <label for="seatCount">How many seats to select</label>
+        <input id="seatCount" type="number" min="1" max="4" value="1">
+
+        <label for="speedMs">Speed loop (ms) — scan interval</label>
+        <select id="speedMs">
+            <option value="100">Lightning — 100ms</option>
+            <option value="150" selected>Ultra — 150ms</option>
+            <option value="250">Fast — 250ms</option>
+            <option value="500">Normal — 500ms</option>
+        </select>
+    </fieldset>
+
+    <button id="startBtn" class="btn-start">Start Auto-Booking</button>
+
+    <div id="status" class="status">Ready.</div>
+    <div class="footer">
+        The search form fills itself, then Book Now on the results page, then seat select.<br>
+        On reaching the OTP page the loop stops and takes you straight there.
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
